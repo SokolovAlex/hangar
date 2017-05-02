@@ -2,11 +2,14 @@ var riot = require('riot');
 require('./tags');
 var route = require('riot-route');
 
-let app = riot.mount('app', { tab: 'enter' })[0];
+let app;
 
 route("/*", (tab) => {
-    console.log({ tab });
-    app.update({ tab })
+    if (app) {
+        app.update({ tab });
+    } else {
+        app = riot.mount('app', { tab })[0];
+    }
 });
 
-route.start();
+route.start(true);

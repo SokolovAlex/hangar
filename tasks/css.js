@@ -22,8 +22,9 @@ module.exports = function() {
     });
 
     gulp.task('styles', function() {
-        return gulp.src(['client/styles/**/*.less'])
+        return gulp.src(['client/styles/**/*.less', "client/js/tags/**/*.less"])
             .pipe($.sourcemaps.init())
+            //.on("data", function(f) { console.log(f.fileName); })
             .pipe($.concat('main.less'))
             .pipe($.less())
             .pipe($.sourcemaps.write())

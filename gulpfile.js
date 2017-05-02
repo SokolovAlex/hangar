@@ -17,7 +17,7 @@ gulp.task("server", () => {
 });
 
 gulp.task("watch", (next) => {
-    gulp.watch('client/styles/**/*.{css,less}', ['css']);
+    gulp.watch(['client/styles/**/*.{css,less}', "client/js/tags/**/*.less"], ['css']);
     // gulp.watch('client/js/**/*.js', ['js']);
     // gulp.watch('client/js/**/*.tag', ['tags']);
     gulp.watch('server/**/*.js', ['server']);

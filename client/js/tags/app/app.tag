@@ -10,7 +10,6 @@
     
     <div class="content">
         <div class="menu-content" if="{activeTab === Tabs.enter}">
-            auth-menu
             <auth-menu></auth-menu>
         </div>
         <div class="menu-content" if="{activeTab === Tabs.about}">
