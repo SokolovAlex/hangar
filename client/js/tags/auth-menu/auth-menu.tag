@@ -40,6 +40,8 @@
 
         tag.opened = true;
 
+        console.log('constructor');
+
         tag.toggle = () => {
            tag.opened = !tag.opened;
            tag.update();
