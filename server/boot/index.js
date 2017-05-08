@@ -1,11 +1,10 @@
 var schemaInit = require('./schema');
-var config = require('../config');
+var passportInit = require('./passport');
 
-module.exports = app => {
-
-    app.config = config;
-
+module.exports = (app, passport) => {
     app.models = schemaInit().models;
 
     require('./models_extend')(app);
+
+    passportInit(app, passport);
 };

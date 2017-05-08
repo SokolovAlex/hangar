@@ -18,7 +18,7 @@
                 <a href="#"><i class="fa fa-fw fa-vk"></i></a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-google-plus"></i></a>
+                <a href="/auth/google"><i class="fa fa-fw fa-google-plus"></i></a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-twitter"></i></a>

@@ -8,7 +8,7 @@ module.exports = function() {
     var isProd = process.env.NODE_ENV === "prod";
 
     gulp.task('views', function() {
-        return gulp.src(['client/views/**/*.jade', '!client/views/partials/*.jade'])
+        return gulp.src(['client/views/**/*.jade', '!client/views/components/*.jade'])
             .pipe(gulp.dest('build/views'))
     });
 };

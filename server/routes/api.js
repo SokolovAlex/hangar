@@ -6,7 +6,7 @@ var usersApi = require('./api/user');
 var productApi = require('./api/product');
 var transactionsApi = require('./api/transaction');
 
-module.exports = app => {
+module.exports = (app, passport) => {
 
     router = usersApi(router, app);
 

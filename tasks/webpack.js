@@ -10,7 +10,8 @@ module.exports = function() {
     gulp.task('webpack', function() {
         return gulp.src([
                 'client/js/vendor.js',
-                'client/js/app.js'
+                'client/js/admin.js',
+                'client/js/welcome.js'
             ])
             .pipe(named())
             .pipe(webpackStream({
@@ -19,6 +20,7 @@ module.exports = function() {
                     publicPath: '',
                     library: 'app'
                 },
+                devtool: 'source-map',
                 plugins: [
                     new webpack.ProvidePlugin({
                         riot: 'riot'

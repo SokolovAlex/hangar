@@ -1,4 +1,4 @@
-<main-menu>
+<welcome-menu>
    <nav class="codrops-demos">
         <a href="#enter" class="{ activePage === Pages.enter ? 'active' : ''}"> Enter </a>
         <a href="#about" class="{ activePage === Pages.about ? 'active' : ''}"> About </a>
@@ -19,4 +19,4 @@
             this.activePage = opts.page;
         });
     </script>
-</main-menu>
+</welcome-menu>

@@ -5,27 +5,33 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fileUpload = require('express-fileupload');
 var config = require('./config');
-
+var passport = require('passport');
+var morgan = require('morgan');
+var session = require('express-session');
 var boot = require('./boot');
 
-boot(app);
+boot(app, passport);
 
 var auth = require('./routes/auth');
-
 var pages = require('./routes/pages');
 var api = require('./routes/api');
 var upload = require('./routes/upload');
 
-//var connect = require('connect');
-//connect().use(connect.limit('5.5mb'));
-
-app.use(bodyParser.json({ limit: '150mb' }));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(fileUpload());
 
+auth(app, passport);
 app.use('/', pages(app));
-app.use('/auth', auth(app));
 app.use('/api', api(app));
 app.use('/upload', upload(app));
 

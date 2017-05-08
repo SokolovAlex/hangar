@@ -2,6 +2,7 @@ var Schema = require('jugglingdb').Schema;
 var _ = require('lodash');
 var config = require('../config');
 var enums = require('../enums');
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = () => {
     var schema = new Schema('memory');
@@ -33,11 +34,16 @@ module.exports = () => {
         id: { type: Number, index: true },
         hash: { type: String, limit: 150 },
         email: { type: String, limit: 50, index: true },
-        firstName: { type: String, limit: 50 },
-        lastName: { type: String, limit: 50 },
+        name: { type: String, limit: 50 },
         password: { type: String, limit: 150 },
         salt: { type: String, limit: 50 },
         birthDate: Date,
+        googleEmail: { type: String, limit: 50 },
+        googleToken: { type: String, limit: 50 },
+        googleName: { type: String, limit: 50 },
+        googleImage: { type: String, limit: 50 },
+        googleid: { type: String, limit: 50 },
+        avatar: { type: String, limit: 50 },
         activated: { type: Boolean, default: false }
     }, baseModel), {
         table: 'users'
@@ -90,6 +96,15 @@ module.exports = () => {
             schema.autoupdate();
         }
     });
+
+    User.generateHash = function(password) {
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+    };
+
+    // checking if password is valid
+    User.validPassword = function(password) {
+        return bcrypt.compareSync(password, this.googlePassword);
+    };
 
     return schema;
 };
