@@ -3,9 +3,9 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group float-left">
                 <input type="text" class="form-control">
-                <i class="fa fa-search" aria-hidden="true"></i>
+                <i class="fa fa-search form-icon" aria-hidden="true"></i>
             </div>
         </div>
          <div class="col-md-6">
