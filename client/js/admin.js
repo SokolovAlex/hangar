@@ -1,9 +1,12 @@
-var riot = require('riot');
+const riot = require('riot');
 require('./tags/admin');
-var route = require('riot-route');
+const route = require('riot-route');
+const api = require('./services/api');
 
 let menu, page;
 let pageEl = document.getElementById('page_content');
+
+riot.mixin('api', { api });
 
 const routes = {
     products() {
@@ -13,7 +16,20 @@ const routes = {
         page = riot.mount(pageEl, "transactions")[0];
     },
     users() {
-        page = riot.mount(pageEl, "users")[0];
+        riot.mount(pageEl, "loader");
+        api.getUsers().then((users) => {
+            page = riot.mount(pageEl, "users", { users })[0];
+        });
+    },
+    "user-details": (id) => {
+        if (!id) {
+            return page = riot.mount(pageEl, "user-details")[0];
+        }
+        riot.mount(pageEl, "loader");
+        api.getUsers().then((users) => {
+            let user = { id };
+            page = riot.mount(pageEl, "user-details", { user })[0];
+        });
     }
 };
 
@@ -25,7 +41,7 @@ route((page) => {
         menu = riot.mount('admin-menu', { page })[0];
     }
 
-    let routeFn = routes[page];
+    let routeFn = routes[page] || routes['products'];
     routeFn();
 });
 

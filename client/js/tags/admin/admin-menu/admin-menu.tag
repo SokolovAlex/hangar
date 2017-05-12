@@ -1,5 +1,5 @@
 <admin-menu>
-   <nav class="codrops-demos">
+   <nav class="codrops-demos margin-none">
         <a href="#products" class="{ activePage === Pages.products ? 'active' : ''}"> Products </a>
         <a href="#transactions" class="{ activePage === Pages.transactions ? 'active' : ''}"> Transactions </a>
         <a href="#users" class="{ activePage === Pages.users ? 'active' : ''}"> Users </a>

@@ -1,5 +1,5 @@
 <welcome-menu>
-   <nav class="codrops-demos">
+   <nav class="codrops-demos margin-top-md">
         <a href="#enter" class="{ activePage === Pages.enter ? 'active' : ''}"> Enter </a>
         <a href="#about" class="{ activePage === Pages.about ? 'active' : ''}"> About </a>
         <a href="#contacts" class="{ activePage === Pages.contacts ? 'active' : ''}"> Contacts </a>
