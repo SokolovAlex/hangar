@@ -5,7 +5,7 @@ var enums = require('../enums');
 var bcrypt = require('bcrypt-nodejs');
 
 module.exports = () => {
-    var schema = new Schema('memory');
+    var schema = new Schema('mysql', config.db_connect);
 
     schema.on('connected', function() {
         console.log("db connected");
@@ -39,11 +39,11 @@ module.exports = () => {
         salt: { type: String, limit: 50 },
         birthDate: Date,
         googleEmail: { type: String, limit: 50 },
-        googleToken: { type: String, limit: 50 },
+        googleToken: { type: String, limit: 150 },
         googleName: { type: String, limit: 50 },
         googleImage: { type: String, limit: 50 },
         googleid: { type: String, limit: 50 },
-        avatar: { type: String, limit: 50 },
+        avatar: { type: String, limit: 150 },
         activated: { type: Boolean, default: false }
     }, baseModel), {
         table: 'users'
@@ -88,14 +88,6 @@ module.exports = () => {
     Product.belongsTo(Image, { as: 'image', foreignKey: 'imageId' });
 
     Transaction.belongsTo(User, { as: 'user', foreignKey: 'UserId' });
-
-    schema.isActual(function(err, actual) {
-        if (!actual) {
-            console.log("db autoupdate");
-            //schema.automigrate();
-            schema.autoupdate();
-        }
-    });
 
     User.generateHash = function(password) {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);

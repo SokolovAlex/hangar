@@ -26,14 +26,13 @@ const routes = {
             return page = riot.mount(pageEl, "user-details")[0];
         }
         riot.mount(pageEl, "loader");
-        api.getUsers().then((users) => {
-            let user = { id };
+        api.getUser(id).then((user) => {
             page = riot.mount(pageEl, "user-details", { user })[0];
         });
     }
 };
 
-route((page) => {
+route((page, param) => {
     page = page || 'products';
     if (menu) {
         menu.update({ page });
@@ -42,7 +41,7 @@ route((page) => {
     }
 
     let routeFn = routes[page] || routes['products'];
-    routeFn();
+    routeFn(param);
 });
 
 route.start(true);

@@ -6,15 +6,30 @@ module.exports = (router, app) => {
         var body = req.body;
         var page = body.page || 1;
         var size = body.size || 20;
-        var order = body.order || 'title';
+        var order = body.order || 'created';
 
         User.all({ limit: size, skip: (page - 1) * size, order: order }, (err, result) => {
             if (err) {
                 return res.status(500).json({ message: err });
             }
 
-            //res.json({ users: result });
-            res.json({ users: [{ id: 1, name: 'Olya', transactionsAll: 1000, debt: 100, activeProducts: 3, productsAll: 3, created: "10 feb" }, { id: 1, name: 'Diamond', transactionsAll: 1000, debt: 100, activeProducts: 3, productsAll: 3 }, { id: 1, name: 'Nappy', transactionsAll: 1000, debt: 100, activeProducts: 3, productsAll: 3 }] });
+            res.json({ users: result });
+        });
+    });
+
+    router.get('/users/:id', (req, res) => {
+        var id = req.params.id;
+
+        if (!id) {
+            return res.status(500).json({ message: "No id params" });
+        }
+
+        User.findOne({ where: { id } }, (err, user) => {
+            if (err) {
+                return res.status(500).json({ message: err });
+            }
+
+            res.json(user);
         });
     });
 

@@ -9,7 +9,7 @@
             </div>
         </div>
          <div class="col-md-6">
-            <a class="btn float-right is-md" href="#user-details"> Add new </a>
+            <!-- <a class="btn float-right is-md" href="#user-details"> Add new </a> -->
         </div>
     </div>
     <div class="row">

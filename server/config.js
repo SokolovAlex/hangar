@@ -23,7 +23,7 @@ module.exports = {
     db_connect: {
         host: 'localhost',
         port: 3306,
-        database: 'ssdb',
+        database: 'hangardb',
         username: "root",
         password: "Xx102030"
     },

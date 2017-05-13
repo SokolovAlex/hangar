@@ -18,6 +18,18 @@ module.exports = {
         }
         return usersReady;
     },
+    getUser(id) {
+        return new Promise((resolve, reject) => {
+            request.get(`/api/users/${id}`)
+                .end((err, res) => {
+                    let responseData;
+                    if (res.ok) {
+                        responseData = JSON.parse(res.text);
+                    }
+                    resolve(responseData);
+                });
+        });
+    },
     updateUser(user) {
 
     },
