@@ -44,21 +44,14 @@ module.exports = () => {
         googleImage: { type: String, limit: 50 },
         googleid: { type: String, limit: 50 },
         avatar: { type: String, limit: 150 },
-        activated: { type: Boolean, default: false }
+        activated: { type: Boolean, default: false },
+        role: { type: Number, default: enums.Roles.Client }
     }, baseModel), {
         table: 'users'
     });
 
-    var Role = schema.define('Role', _.extend({
-        id: { type: Number, limit: 50, index: true },
-        name: { type: String, limit: 50 }
-    }, baseModel), {
-        table: 'roles'
-    });
-
     var Product = schema.define('Product', _.extend({
         id: { type: Number, limit: 50, index: true },
-        userId: { type: Number, limit: 10 },
         description: { type: String, limit: 50 },
         name: { type: String, limit: 50 },
         cost: { type: Number, limit: 50 },
@@ -83,11 +76,11 @@ module.exports = () => {
         table: 'transactions'
     });
 
-    User.belongsTo(Role, { as: 'role', foreignKey: 'roleId' });
-
     Product.belongsTo(Image, { as: 'image', foreignKey: 'imageId' });
 
-    Transaction.belongsTo(User, { as: 'user', foreignKey: 'UserId' });
+    Product.belongsTo(User, { as: 'user', foreignKey: 'userId' });
+
+    Transaction.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 
     User.generateHash = function(password) {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);

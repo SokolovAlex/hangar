@@ -24,7 +24,7 @@ module.exports = (router, app) => {
             return res.status(500).json({ message: "No id params" });
         }
 
-        User.findOne({ where: { id } }, (err, user) => {
+        User.find(id, (err, user) => {
             if (err) {
                 return res.status(500).json({ message: err });
             }

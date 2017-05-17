@@ -10,7 +10,10 @@ riot.mixin('api', { api });
 
 const routes = {
     products() {
-        page = riot.mount(pageEl, "products")[0];
+        riot.mount(pageEl, "loader");
+        api.getProducts().then((products) => {
+            page = riot.mount(pageEl, "products", { products })[0];
+        });
     },
     transactions() {
         page = riot.mount(pageEl, "transactions")[0];
@@ -28,6 +31,12 @@ const routes = {
         riot.mount(pageEl, "loader");
         api.getUser(id).then((user) => {
             page = riot.mount(pageEl, "user-details", { user })[0];
+        });
+    },
+    "product-details": (id) => {
+        riot.mount(pageEl, "loader");
+        api.getProduct(id).then((response) => {
+            page = riot.mount(pageEl, "product-details", { product: response.product, types: response.types })[0];
         });
     }
 };
