@@ -17,7 +17,7 @@ var pages = require('./routes/pages');
 var api = require('./routes/api');
 var upload = require('./routes/upload');
 
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({

@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Type</th>
                     <th>Description</th>
                     <th>Created</th>
                     <th>Cost</th>
@@ -27,10 +28,11 @@
             <tbody>
                 <tr each={ products }>
                     <td>{ name }</td>
+                    <td>{ type }</td>
                     <td>{ description }</td>
                     <td>{ created }</td>
                     <td>{ cost }</td>
-                    <td>{ user }</td>
+                    <td>{ user.name }</td>
                     <td>
                         <a class="table__action" href="#product-details/{id}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         <span class="table__action" onclick="{ deleteProduct }"><i class="fa fa-trash" aria-hidden="true"></i></span>
@@ -48,7 +50,7 @@
         tag.deleteProduct = function(e) {
             let id = e.item.id;
             this.api.deleteProduct(id).then(() => {
-
+                debugger;
             });
         }
     </script>

@@ -10,7 +10,7 @@ module.exports = (router, app) => {
         var size = body.size || 20;
         var order = body.order || 'created';
 
-        Product.all({ limit: size, skip: (page - 1) * size, order: order }, (err, result) => {
+        Product.all({ limit: size, skip: (page - 1) * size, order: order, include: ['user'] }, (err, result) => {
             if (err) {
                 return res.status(500).json({ message: err });
             }
@@ -26,11 +26,10 @@ module.exports = (router, app) => {
             return res.json({ types: enums.ProductTypes });
         }
 
-        Product.find(id, (err, product) => {
+        Product.findOne({ where: { id }, include: ['user'] }, (err, product) => {
             if (err) {
                 return res.status(500).json({ message: err });
             }
-
             res.json({ product, types: enums.ProductTypes });
         });
     });
@@ -39,10 +38,10 @@ module.exports = (router, app) => {
         let body = req.body;
 
         let dbEntity = {
-            userId: req.user.id,
             description: body.description,
             name: body.name,
-            cost: body.cost
+            cost: body.cost,
+            type: body.typeId
         };
 
         if (body.id) {
@@ -56,6 +55,7 @@ module.exports = (router, app) => {
                 });
             });
         } else {
+            dbEntity.userId = req.user.id;
             Product.create(dbEntity, (err, result) => {
                 if (err) return res.status(500).json({ error: err.message });
 

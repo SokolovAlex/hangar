@@ -2,11 +2,12 @@ const riot = require('riot');
 require('./tags/admin');
 const route = require('riot-route');
 const api = require('./services/api');
+const initMixins = require('./tags/mixins');
 
 let menu, page;
 let pageEl = document.getElementById('page_content');
 
-riot.mixin('api', { api });
+initMixins();
 
 const routes = {
     products() {

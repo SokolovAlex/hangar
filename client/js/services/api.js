@@ -1,12 +1,11 @@
 const request = require('superagent');
 
-let usersReady,
-    productsReady;
+const promises = {};
 
 module.exports = {
     getUsers(filter) {
-        if (!usersReady) {
-            usersReady = new Promise((resolve, reject) => {
+        if (!promises.usersReady) {
+            promises.usersReady = new Promise((resolve, reject) => {
                 request.get('/api/users')
                     .end(function(err, res) {
                         let responseData;
@@ -17,7 +16,7 @@ module.exports = {
                     });
             });
         }
-        return usersReady;
+        return promises.usersReady;
     },
     getUser(id) {
         return new Promise((resolve, reject) => {
@@ -32,8 +31,8 @@ module.exports = {
         });
     },
     getProducts(filter) {
-        if (!productsReady) {
-            productsReady = new Promise((resolve, reject) => {
+        if (!promises.productsReady) {
+            promises.productsReady = new Promise((resolve, reject) => {
                 request.get('/api/products')
                     .end((err, res) => {
                         let responseData;
@@ -44,11 +43,24 @@ module.exports = {
                     });
             });
         }
-        return productsReady;
+        return promises.productsReady;
     },
     getProduct(id) {
         return new Promise((resolve, reject) => {
             request.get(`/api/products/${id ? id : 0}`)
+                .end((err, res) => {
+                    let responseData;
+                    if (res.ok) {
+                        responseData = JSON.parse(res.text);
+                    }
+                    resolve(responseData);
+                });
+        });
+    },
+    saveProduct(product) {
+        return new Promise((resolve, reject) => {
+            request.post(`/api/products`)
+                .send(product)
                 .end((err, res) => {
                     let responseData;
                     if (res.ok) {
@@ -63,5 +75,8 @@ module.exports = {
     },
     deleteUser(id) {
 
+    },
+    clear(promiseName) {
+        promises[promiseName] = null;
     }
 };
