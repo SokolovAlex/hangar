@@ -76,6 +76,18 @@ module.exports = {
     deleteUser(id) {
 
     },
+    deleteImage(id, type) {
+        return new Promise((resolve, reject) => {
+            request.delete(`/upload/${id ? id : 0}`)
+                .end((err, res) => {
+                    let responseData;
+                    if (res.ok) {
+                        responseData = JSON.parse(res.text);
+                    }
+                    resolve(responseData);
+                });
+        });
+    },
     clear(promiseName) {
         promises[promiseName] = null;
     }

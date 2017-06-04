@@ -1,14 +1,9 @@
-var fs = require("fs");
-var _ = require("lodash");
-var enums = require('../enums');
-
-var ImageTypesFolders = _.reduce(enums.ImageTypes, (memo, item) => {
-    memo[item.id] = item.folder || 'Temp';
-    return memo;
-}, {});
+const fs = require("fs");
+const _ = require("lodash");
+const enums = require('../enums');
+const ImageTypesFolders = enums.ImageTypes;
 
 module.exports = (app) => {
-
     const Image = app.models.Image;
 
     function getRandomInt() {
@@ -25,12 +20,18 @@ module.exports = (app) => {
     };
 
     const remove = (id, next) => {
-        if(!id) {
+        if (!id) {
             return next(null);
         }
 
         Image.find(id, (err, model) => {
-            removeFile(model.name, ImageTypesFolders[model.type]);
+            if (!model) {
+                console.log(`no model with id ${id}`);
+                return next(err);
+            }
+
+            let type = model.productId ? ImageTypesFolders.Products : ImageTypesFolders.Transactions;
+            removeFile(model.name, type);
             model.destroy(next);
         });
     };
@@ -39,6 +40,10 @@ module.exports = (app) => {
         var folder = ImageTypesFolders[type];
 
         Image.find(id, (err, model) => {
+            if (err || !model) {
+                return next(err);
+            }
+
             if (model.name != file.name) {
                 removeFile(model.name, folder);
             }
@@ -54,29 +59,30 @@ module.exports = (app) => {
     };
 
     function create(file, type, options, next) {
+
+        if (!file) {
+            return next(null);
+        }
+
         if (_.isFunction(options)) {
             next = options;
         }
 
         options = options || {};
 
-        var folder = ImageTypesFolders[type];
+        let folder = ImageTypesFolders[type];
 
-        if(!file) {
-            return next(null);
-        }
-
-        var name = addNum(file.name);
+        let name = addNum(file.name);
 
         const saveDb = new Promise((resolve) => {
             Image.create({
                 name: name,
                 description: options.description,
+                productId: options.productId,
                 type
             }, (err, result) => {
-                if (err) {
-                    return next(err);
-                }
+                if (err) return next(err);
+
                 resolve(result);
             });
         });
@@ -84,24 +90,25 @@ module.exports = (app) => {
         return saveDb.then((result) => {
             file.mv(app.upload_path + `${folder}/${name}`, function(err) {
                 if (err) {
+                    console.log(err);
                     next(err);
                 } else {
                     next(null, result);
                 }
             });
         }).catch(function(err) {
+            console.log(err);
             next(err);
         });
     }
 
     function save(id, file, type, next) {
-        if(!id) {
+        if (!id) {
             create(file, type, next);
         } else {
-            if(file) {
+            if (file) {
                 update(id, file, type, next);
             } else {
-                //remove(id, next);
                 next(null, null)
             }
         }
@@ -117,4 +124,3 @@ module.exports = (app) => {
         remove
     };
 };
-

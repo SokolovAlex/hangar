@@ -76,7 +76,13 @@ module.exports = () => {
         table: 'transactions'
     });
 
-    Product.belongsTo(Image, { as: 'image', foreignKey: 'imageId' });
+    Product.hasMany(Image, { as: 'images', foreignKey: 'productId' });
+
+    Transaction.hasMany(Image, { as: 'images', foreignKey: 'transactionId' });
+
+    Image.belongsTo(Product, { as: 'product', foreignKey: 'productId' });
+
+    Image.belongsTo(Transaction, { as: 'transaction', foreignKey: 'transactionId' });
 
     Product.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 

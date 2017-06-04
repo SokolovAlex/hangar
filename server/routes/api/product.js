@@ -1,4 +1,5 @@
 const enums = require('../../enums');
+const mappers = require('../../helpers/mappers');
 
 module.exports = (router, app) => {
 
@@ -26,10 +27,15 @@ module.exports = (router, app) => {
             return res.json({ types: enums.ProductTypes });
         }
 
-        Product.findOne({ where: { id }, include: ['user'] }, (err, product) => {
+        Product.findOne({ where: { id }, include: ['user', 'images'] }, (err, product) => {
             if (err) {
                 return res.status(500).json({ message: err });
             }
+
+            product.images(mappers.images);
+
+            product = mappers.product(product);
+
             res.json({ product, types: enums.ProductTypes });
         });
     });

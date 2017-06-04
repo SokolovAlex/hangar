@@ -28,5 +28,9 @@ module.exports = {
     Roles: {
         Client: 1,
         Admin: 2
+    },
+    ImageTypes: {
+        Products: 'Products',
+        Transactions: 'Transactions'
     }
 };
