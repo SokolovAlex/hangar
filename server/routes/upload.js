@@ -28,9 +28,7 @@ module.exports = app => {
 
     router.delete('/:id', function(req, res) {
         let id = req.params.id;
-
         uploadHelper.remove(id, () => {
-
             res.json({ message: '', error: false })
         })
     });
